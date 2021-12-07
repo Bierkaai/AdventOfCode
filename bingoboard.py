@@ -20,11 +20,21 @@ class BingoBoard(object):
     def __contains__(self, n):
         return any([n in r for r in self._rows])
 
+    def __len__(self):
+        return len(self.original_board)
+
     @property
     def hasWon(self):
-        return set() in self._rows or set() in self._cols
+        return any([len(x) < 1 for x in self._rows + self._cols])
 
     def mark(self, nr):
         nr_as_set = {nr}
         self._rows = [r - nr_as_set for r in self._rows]
         self._cols = [c - nr_as_set for c in self._cols]
+
+    def __str__(self):
+        result = ""
+        for row in self.original_board:
+            result += " ".join([f"{x: 2d}" for x in row]) + "\n"
+        return result
+

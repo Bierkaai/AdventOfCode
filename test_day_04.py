@@ -1,6 +1,6 @@
 from unittest import TestCase, skip
 
-from day_04 import load, solve
+from day_04 import load, solve, parse_line, find_last_winner
 
 EXAMPLE_FILE = './input/04example.txt'
 DRAW_LIST = [7, 4, 9, 5, 11, 17, 23, 2, 0, 14, 21, 24, 10, 16, 13, 6, 15, 25, 12, 22, 18, 20, 8, 19, 3, 26, 1]
@@ -37,13 +37,34 @@ class TestInput(TestCase):
                 self.assertEqual(BOARD_SIZE, len(row), f"row {j + 1} on board {i + 1} has wrong number of entries")
 
 
-@skip
 class TestExampleSolution(TestCase):
     # test whether correct output is returned on example case
 
     def setUp(self) -> None:
-        self.result = solve(load(EXAMPLE_FILE))
+        self.result = solve(*load(EXAMPLE_FILE))
         self.desired_result = 4512
 
     def test_solve(self):
-        self.assertEqual(self.result, self.desired_result)
+        self.assertEqual(self.desired_result, self.result)
+
+class TestSecondPartExample(TestCase):
+    def setUp(self) -> None:
+        self.result = find_last_winner(*load(EXAMPLE_FILE))
+        self.desired_result = 1924
+
+    def test_last_winner(self):
+        self.assertEqual(self.desired_result, self.result)
+
+class TestLineParser(TestCase):
+
+    def test_parse_line(self):
+        result = parse_line("0 3 2 4 5")
+        self.assertEqual(result, [0, 3, 2, 4, 5])
+
+    def test_parse_line_with_double_spaces(self):
+        result = parse_line("0  3 2 4 5")
+        self.assertEqual(result, [0, 3, 2, 4, 5])
+
+    def test_parse_line_with_trailing_whitespace(self):
+        result = parse_line("0 3 2 4 5  ")
+        self.assertEqual(result, [0, 3, 2, 4, 5])
