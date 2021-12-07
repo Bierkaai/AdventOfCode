@@ -32,7 +32,7 @@ class CrabSolver(AbstractCrabSolver):
         return abs(target_pos - p)
 
 
-class CrabSolverRework(CrabSolver):
+class CrabSolverRework(AbstractCrabSolver):
 
     def single_crab_fuel_to_pos(self, p, target_pos):
         return triangular(abs(target_pos - p))
