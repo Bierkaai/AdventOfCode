@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from day08 import NumberDisplayDeducer, count_numbers_in_outputs
+from day08 import NumberDisplayDeducer, count_numbers_in_outputs, NumberDisplay
 
 EXAMPLE_INPUT = """
 be cfbegad cbdgef fgaecd cgeb fdcge agebfd fecdb fabcd edb | fdgacbe cefdb cefbgd gcbe
@@ -24,7 +24,28 @@ ONE_LINE_OUTPUT = "fdgacbe cefdb cefbgd gcbe"
 ONE_LINE_OUTPUT_PARSED = ["fdgacbe", "cefdb", "cefbgd", "gcbe"]
 ONE_LINE_INPUT_PARSED = ["be", "cfbegad", "cbdgef", "fgaecd", "cgeb", "fdcge", "agebfd", "fecdb", "fabcd", "edb"]
 
+CORRECT_CODING = {
+    0: "abcefg",
+    1: "cf",
+    2: "acdeg",
+    3: "acdfg",
+    4: "bcdf",
+    5: "abdfg",
+    6: "abdefg",
+    7: "acf",
+    8: "abcdefg",
+    9: "abcdfg"
+}
 
+CORRECT_SIMPLE_NUMBER_MAP = {
+    1: {"c", "f"},
+    4: {"b", "c", "d", "f"},
+    7: {"a", "c", "f"},
+    8: {"a", "b", "c", "d", "e", "f", "g"},
+}
+
+correct_coding_input = " ".join([CORRECT_CODING[x] for x in range(10)]) + " | " + " ".join([CORRECT_CODING[x] for x in range(4)])
+CORRECT_CODING_OUTPUT_SUM = 0 + 1 + 2 + 3
 
 class TestNumberDisplayDeducer(TestCase):
 
@@ -62,3 +83,60 @@ class TestExampleCase1(TestCase):
     def test_solve_example_number_count(self):
         self.assertEqual(EXAMPLE_OUTPUT, count_numbers_in_outputs(EXAMPLE_INPUT.split("\n")))
 
+
+class TestStupidityNumberDisplay(TestCase):
+
+    def setUp(self) -> None:
+        self.nd = NumberDisplay('acf')
+        self.ndrev = NumberDisplay('fca')
+
+    def test_reversal(self):
+        self.assertEqual(self.nd.bitstring, self.ndrev.bitstring)
+        self.assertEqual(int(self.nd), int(self.ndrev))
+
+
+class TestNumberDisplay(TestCase):
+    # Assuming correct codes, test whether int rep works
+
+    def setUp(self):
+        self.one = NumberDisplay('cf')
+        self.eight = NumberDisplay('abcdefg')
+        self.zero = NumberDisplay('abcefg')
+        self.seven = NumberDisplay('acf')
+
+    def test_bitstring(self):
+        self.assertEqual('1111111', self.eight.bitstring)
+        self.assertEqual('1110111', self.zero.bitstring)
+
+    def test_int(self):
+        self.assertEqual(127, int(self.eight))
+
+    def test_reversal(self):
+        self.assertEqual(0, ~self.eight)
+        self.assertEqual(8, ~self.zero)
+
+    def test_equals(self):
+        self.assertTrue(self.zero == self.zero)
+        self.assertTrue(self.eight == self.eight)
+
+    def test_or(self):
+        self.assertEqual(self.one | self.seven, self.seven)
+
+    def test_population_equals_length_of_strrep(self):
+        self.assertEqual(len(self.seven), sum([int(x) for x in self.seven.bitstring]))
+
+
+class TestNumberDisplayDeducer(TestCase):
+
+    def setUp(self):
+        self.ndd = NumberDisplayDeducer(correct_coding_input)
+        self.simple_map = self.ndd.get_simple_number_map()
+        self.one = self.simple_map[1]
+        self.seven = self.simple_map[7]
+
+    def test_deduce_simple_number_map(self):
+        self.assertDictEqual(CORRECT_SIMPLE_NUMBER_MAP, self.simple_map)
+        self.assertEqual(self.one, {"c", "f"})
+
+    def test_deduce_top_segment(self):
+        self.assertEqual({'a'}, self.ndd.deduce_top_segment(self.one, self.seven))
