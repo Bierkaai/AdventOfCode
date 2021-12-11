@@ -153,5 +153,5 @@ if __name__ == "__main__":
         g2.do_step()
     print(f"Stepcount first flash sync = {stepcount}")
     print()
-    print(f"This is the grid afte
+    print(f"This is the grid after {stepcount} steps")
     print(g2)

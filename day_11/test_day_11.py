@@ -1,11 +1,9 @@
 import unittest
 from unittest import TestCase
 
-import numpy as np
-
+from day_11 import Grid
 from day_11 import Octopus
 from day_11 import parse_input
-from day_11 import Grid
 
 SMALL_EXAMPLE_LIST_COUNT = 3
 SMALL_EXAMPLE_LIST_LENGHT = 3
@@ -82,7 +80,6 @@ class TestOctopus(TestCase):
     def test_flash_count_zero_on_creation(self):
         self.assertEqual(0, self.o.flashcount)
 
-
     def test_add_neighbor(self):
         # adding a neighbor should increase neighbor_count
         # and have that neighbor in the set of neighbors
@@ -132,8 +129,6 @@ class TestOctopusFiringBehavior(unittest.TestCase):
         self.assertEqual(self.o_hot.energy_level, 0)
 
 
-
-
 class TestInputParser(TestCase):
 
     def setUp(self) -> None:
@@ -171,15 +166,15 @@ class TestGrid(TestCase):
         self.assertEqual(SMALL_EXAMPLE, str(self.g))
 
     def test_yield_octopuses_in_row_i_around_pos_j_top_left_case(self):
-        result = [x.energy_level for x in self.g.yield_octopuses_in_row_i_around_pos_j(0,0)]
+        result = [x.energy_level for x in self.g.yield_octopuses_in_row_i_around_pos_j(0, 0)]
         self.assertListEqual(result, [1, 2])
 
     def test_yield_octopuses_in_row_i_around_pos_j_middle_case(self):
-        result = [x.energy_level for x in self.g.yield_octopuses_in_row_i_around_pos_j(1,1)]
+        result = [x.energy_level for x in self.g.yield_octopuses_in_row_i_around_pos_j(1, 1)]
         self.assertListEqual(result, [4, 5, 6])
 
     def test_yield_octopuses_in_row_i_around_pos_j_bottom_case(self):
-        result = [x.energy_level for x in self.g.yield_octopuses_in_row_i_around_pos_j(2,2)]
+        result = [x.energy_level for x in self.g.yield_octopuses_in_row_i_around_pos_j(2, 2)]
         self.assertListEqual(result, [8, 9])
 
     def test_get_octopus_at_i_j(self):
@@ -195,8 +190,8 @@ class TestGrid(TestCase):
             self.assertGreater(len(o.neighbors), 0)
 
     def test_neighbors_set(self):
-        neighbors = {o.energy_level for o in self.g.get_octopus_at(0,1).neighbors}
-        self.assertSetEqual(neighbors, {1,3,4,5,6})
+        neighbors = {o.energy_level for o in self.g.get_octopus_at(0, 1).neighbors}
+        self.assertSetEqual(neighbors, {1, 3, 4, 5, 6})
 
     def test_int_grid(self):
         self.assertListEqual(SMALL_EXAMPLE_PARSED_TO_LIST, self.g.get_int_grid())
@@ -207,6 +202,7 @@ class TestGrid(TestCase):
     def test_add_energy(self):
         self.g.add_energy()
         self.assertListEqual(SMALL_EXAMPLE_ENERGY_ADDED, self.g.get_int_grid())
+
 
 class TestExampleCase(unittest.TestCase):
 
@@ -222,6 +218,7 @@ class TestExampleCase(unittest.TestCase):
         self.g.do_step()
         self.assertEqual(str(self.g), EXAMPLE_STEP_2)
 
+
 class Test100Steps(unittest.TestCase):
 
     def setUp(self) -> None:
@@ -234,5 +231,3 @@ class Test100Steps(unittest.TestCase):
 
     def test_flashcount(self):
         self.assertEqual(FLASHCOUNT_STEP_100, self.g.flashcount)
-
-

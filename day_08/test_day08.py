@@ -1,7 +1,7 @@
 import unittest
 from unittest import TestCase
 
-from day08 import NumberDisplayDeducer, count_numbers_in_outputs, sum_translated_numbers
+from day_08 import NumberDisplayDeducer, count_numbers_in_outputs, sum_translated_numbers
 
 EXAMPLE_INPUT = """
 be cfbegad cbdgef fgaecd cgeb fdcge agebfd fecdb fabcd edb | fdgacbe cefdb cefbgd gcbe

@@ -81,7 +81,7 @@ if __name__ == "__main__":
     oc = OverlapCounter()
     oc2 = OverlapCounter()
 
-    with open("./05.txt", 'r') as f_obj:
+    with open("../input/05.txt", 'r') as f_obj:
         for line in f_obj:
             tup = parse_line(line)
             if tup is not None:
