@@ -126,7 +126,7 @@ class TestNumberDisplay(TestCase):
         self.assertEqual(len(self.seven), sum([int(x) for x in self.seven.bitstring]))
 
 
-class TestNumberDisplayDeducer(TestCase):
+class TestNumberDisplayDeducerDeduction(TestCase):
 
     def setUp(self):
         self.ndd = NumberDisplayDeducer(correct_coding_input)

@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from day_05 import parse_line, Line, make_range, OverlapCounter, solve
+from day_05.day_05 import parse_line, Line, make_range, OverlapCounter, solve
 
 SEXOND_EXAMPLE_ANSWER = 12
 
