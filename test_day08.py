@@ -1,6 +1,7 @@
+import unittest
 from unittest import TestCase
 
-from day08 import NumberDisplayDeducer, count_numbers_in_outputs, NumberDisplay
+from day08 import NumberDisplayDeducer, count_numbers_in_outputs, sum_translated_numbers
 
 EXAMPLE_INPUT = """
 be cfbegad cbdgef fgaecd cgeb fdcge agebfd fecdb fabcd edb | fdgacbe cefdb cefbgd gcbe
@@ -16,10 +17,13 @@ gcafb gcf dcaebfg ecagb gf abcdeg gaef cafbge fdbac fegbdc | fgae cfgab fg bagce
 """
 
 EXAMPLE_OUTPUT = 26
+EXAMPLE_SUM = 61229
 
 ONE_LINE = "be cfbegad cbdgef fgaecd cgeb fdcge agebfd fecdb fabcd edb | fdgacbe cefdb cefbgd gcbe"
 ONE_LINE_INPUT = "be cfbegad cbdgef fgaecd cgeb fdcge agebfd fecdb fabcd edb"
 ONE_LINE_OUTPUT = "fdgacbe cefdb cefbgd gcbe"
+
+ONE_LINE_RESULT = 8394
 
 ONE_LINE_OUTPUT_PARSED = ["fdgacbe", "cefdb", "cefbgd", "gcbe"]
 ONE_LINE_INPUT_PARSED = ["be", "cfbegad", "cbdgef", "fgaecd", "cgeb", "fdcge", "agebfd", "fecdb", "fabcd", "edb"]
@@ -37,6 +41,8 @@ CORRECT_CODING = {
     9: "abcdfg"
 }
 
+invert_correct_coding = {v: k for k, v in CORRECT_CODING.items()}
+
 CORRECT_SIMPLE_NUMBER_MAP = {
     1: {"c", "f"},
     4: {"b", "c", "d", "f"},
@@ -44,8 +50,23 @@ CORRECT_SIMPLE_NUMBER_MAP = {
     8: {"a", "b", "c", "d", "e", "f", "g"},
 }
 
-correct_coding_input = " ".join([CORRECT_CODING[x] for x in range(10)]) + " | " + " ".join([CORRECT_CODING[x] for x in range(4)])
+CORRECT_FULL_NUMBER_MAP = {
+    1: {"c", "f"},
+    2: {"a", "c", "d", "e", "g"},
+    3: {"a", "c", "d", "f", "g"},
+    4: {"b", "c", "d", "f"},
+    5: {"a", "b", "d", "f", "g"},
+    6: {'a', 'b', 'd', 'e', 'f', 'g'},
+    7: {"a", "c", "f"},
+    8: {"a", "b", "c", "d", "e", "f", "g"},
+    9: {"a", "b", "c", "d", "f", "g"},
+    0: {"a", "b", "c", "e", "f", "g"}
+}
+
+correct_coding_input = " ".join([CORRECT_CODING[x] for x in range(10)]) + " | " + " ".join(
+    [CORRECT_CODING[x] for x in range(4)])
 CORRECT_CODING_OUTPUT_SUM = 0 + 1 + 2 + 3
+
 
 class TestNumberDisplayDeducer(TestCase):
 
@@ -84,59 +105,43 @@ class TestExampleCase1(TestCase):
         self.assertEqual(EXAMPLE_OUTPUT, count_numbers_in_outputs(EXAMPLE_INPUT.split("\n")))
 
 
-class TestStupidityNumberDisplay(TestCase):
-
-    def setUp(self) -> None:
-        self.nd = NumberDisplay('acf')
-        self.ndrev = NumberDisplay('fca')
-
-    def test_reversal(self):
-        self.assertEqual(self.nd.bitstring, self.ndrev.bitstring)
-        self.assertEqual(int(self.nd), int(self.ndrev))
-
-
-class TestNumberDisplay(TestCase):
-    # Assuming correct codes, test whether int rep works
-
-    def setUp(self):
-        self.one = NumberDisplay('cf')
-        self.eight = NumberDisplay('abcdefg')
-        self.zero = NumberDisplay('abcefg')
-        self.seven = NumberDisplay('acf')
-
-    def test_bitstring(self):
-        self.assertEqual('1111111', self.eight.bitstring)
-        self.assertEqual('1110111', self.zero.bitstring)
-
-    def test_int(self):
-        self.assertEqual(127, int(self.eight))
-
-    def test_reversal(self):
-        self.assertEqual(0, ~self.eight)
-        self.assertEqual(8, ~self.zero)
-
-    def test_equals(self):
-        self.assertTrue(self.zero == self.zero)
-        self.assertTrue(self.eight == self.eight)
-
-    def test_or(self):
-        self.assertEqual(self.one | self.seven, self.seven)
-
-    def test_population_equals_length_of_strrep(self):
-        self.assertEqual(len(self.seven), sum([int(x) for x in self.seven.bitstring]))
-
-
 class TestNumberDisplayDeducerDeduction(TestCase):
 
     def setUp(self):
         self.ndd = NumberDisplayDeducer(correct_coding_input)
         self.simple_map = self.ndd.get_simple_number_map()
-        self.one = self.simple_map[1]
-        self.seven = self.simple_map[7]
 
     def test_deduce_simple_number_map(self):
         self.assertDictEqual(CORRECT_SIMPLE_NUMBER_MAP, self.simple_map)
-        self.assertEqual(self.one, {"c", "f"})
+        self.assertEqual(CORRECT_SIMPLE_NUMBER_MAP[1], {"c", "f"})
 
-    def test_deduce_top_segment(self):
-        self.assertEqual({'a'}, self.ndd.deduce_top_segment(self.one, self.seven))
+    def test_find_other_numbers(self):
+        for n, setrep in CORRECT_FULL_NUMBER_MAP.items():
+            self.assertIn(n, self.ndd.nmap, f"No representation for {n} found in nmap")
+            self.assertSetEqual(self.ndd.nmap[n], setrep, f"{n} representation not correctly found")
+
+    def test_inverted_map(self):
+        for k, v in self.ndd.inverted_number_map.items():
+            self.assertIsInstance(k, str)
+            self.assertIsInstance(v, int)
+        self.assertDictEqual(invert_correct_coding, self.ndd.inverted_number_map)
+
+
+class TestNumberDeducerOutputTranslator(unittest.TestCase):
+
+    def setUp(self) -> None:
+        self.ndd = NumberDisplayDeducer(ONE_LINE)
+
+    def test_inverted_number_map(self):
+        self.assertEqual(self.ndd.inverted_number_map["be"], 1)
+        self.assertEqual(self.ndd.inverted_number_map["bcdef"], 3)
+
+    def test_output_number(self):
+        self.assertEqual(ONE_LINE_RESULT, self.ndd.get_output_number())
+
+
+class TestNumberTranslation(TestCase):
+
+    def test_sum_translated_numbers(self):
+        sum_result = sum_translated_numbers(EXAMPLE_INPUT.split("\n"))
+        self.assertEqual(EXAMPLE_SUM, sum_result)
