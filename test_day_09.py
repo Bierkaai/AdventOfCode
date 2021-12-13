@@ -2,7 +2,7 @@ import collections.abc
 
 from unittest import TestCase
 
-from day_09 import GridBuilder
+from day_09 import GridBuilder, get_risk_level
 
 EXAMPLE_INPUT = [
     "2199943210",
@@ -13,6 +13,8 @@ EXAMPLE_INPUT = [
 ]
 
 EXAMPLE_LINE_1_LOWS = [1, 0]
+EXAMPLE_LINE_2_LOWS = []
+EXAMPLE_LINE_3_LOWS = [5]
 
 EXAMPLE_OUTPUT = 15
 
@@ -68,6 +70,12 @@ class TestGBFindLows(TestCase):
     def test_adding_line_2_emits_low_points_in_line_1(self):
         self.assertListEqual(EXAMPLE_LINE_1_LOWS, self.results[1])
 
+    def test_adding_line_3_emits_low_points_in_line_2(self):
+        self.assertListEqual(EXAMPLE_LINE_2_LOWS, self.results[2])
+
+    def test_adding_line_4_emits_low_points_in_line_3(self):
+        self.assertListEqual(EXAMPLE_LINE_3_LOWS, self.results[3])
+
 
 class TestGBSlice(TestCase):
 
@@ -104,3 +112,9 @@ class TestGBNeighborhood(TestCase):
         self.gb.add_line(READABLE_LINES[2])
         expected = {0, 1, 2}
         self.assertSetEqual(expected, self.gb.get_neighborhood(2))
+
+
+class TestRiskLevel(TestCase):
+
+    def test_get_risk_level(self):
+        self.assertEqual(EXAMPLE_OUTPUT, get_risk_level(EXAMPLE_INPUT))
