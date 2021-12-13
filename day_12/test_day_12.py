@@ -64,7 +64,47 @@ ALL_PATHS_IN_EXAMPLE = {
     ("start", "b", "A", "end"),
     ("start", "b", "end")
 }
+
+ALL_PATHS_IN_EXAMPLE_WITH_REVISIT = {
+    ("start", "A", "b", "A", "b", "A", "c", "A", "end"),
+    ("start", "A", "b", "A", "b", "A", "end"),
+    ("start", "A", "b", "A", "b", "end"),
+    ("start", "A", "b", "A", "c", "A", "b", "A", "end"),
+    ("start", "A", "b", "A", "c", "A", "b", "end"),
+    ("start", "A", "b", "A", "c", "A", "c", "A", "end"),
+    ("start", "A", "b", "A", "c", "A", "end"),
+    ("start", "A", "b", "A", "end"),
+    ("start", "A", "b", "d", "b", "A", "c", "A", "end"),
+    ("start", "A", "b", "d", "b", "A", "end"),
+    ("start", "A", "b", "d", "b", "end"),
+    ("start", "A", "b", "end"),
+    ("start", "A", "c", "A", "b", "A", "b", "A", "end"),
+    ("start", "A", "c", "A", "b", "A", "b", "end"),
+    ("start", "A", "c", "A", "b", "A", "c", "A", "end"),
+    ("start", "A", "c", "A", "b", "A", "end"),
+    ("start", "A", "c", "A", "b", "d", "b", "A", "end"),
+    ("start", "A", "c", "A", "b", "d", "b", "end"),
+    ("start", "A", "c", "A", "b", "end"),
+    ("start", "A", "c", "A", "c", "A", "b", "A", "end"),
+    ("start", "A", "c", "A", "c", "A", "b", "end"),
+    ("start", "A", "c", "A", "c", "A", "end"),
+    ("start", "A", "c", "A", "end"),
+    ("start", "A", "end"),
+    ("start", "b", "A", "b", "A", "c", "A", "end"),
+    ("start", "b", "A", "b", "A", "end"),
+    ("start", "b", "A", "b", "end"),
+    ("start", "b", "A", "c", "A", "b", "A", "end"),
+    ("start", "b", "A", "c", "A", "b", "end"),
+    ("start", "b", "A", "c", "A", "c", "A", "end"),
+    ("start", "b", "A", "c", "A", "end"),
+    ("start", "b", "A", "end"),
+    ("start", "b", "d", "b", "A", "c", "A", "end"),
+    ("start", "b", "d", "b", "A", "end"),
+    ("start", "b", "d", "b", "end"),
+    ("start", "b", "end")
+}
 N_PATHS_IN_EXAMPLE = 10
+N_PATHS_IN_EXAMPLE_WITH_REVISIT = 36
 
 LARGER_EXAMPLE = """dc-end
 HN-start
@@ -76,6 +116,7 @@ HN-end
 kj-sa
 kj-HN
 kj-dc"""
+
 N_PATHS_IN_LARGER_EXAMPLE = 19
 N_PATHS_V2_IN_LARGER_EXAMPLE = 103
 
@@ -98,7 +139,7 @@ zg-he
 pj-fs
 start-RW"""
 N_PATHS_IN_EVEN_LARGER_EXAMPLE = 226
-N_PATHS_V2_IN_EVEN_LARGER_EXAMPLE = 3509
+N_PATHS_IN_EVEN_LARGER_EXAMPLE_WITH_REVISIT = 3509
 
 
 class TestCaveNetworkBasicFunctionalityStrInput(TestCase):
@@ -139,8 +180,6 @@ class TestCaveNetworkBasicFunctionalityListInput(TestCase):
         self.assertSetEqual(SMALL_CAVES_IN_SIMPLE_EXAMPLE, self.cn.small_caves)
 
 
-
-
 class TestCaveNetworkPathFinding(TestCase):
 
     def setUp(self):
@@ -164,6 +203,13 @@ class TestExample(TestCase):
     def test_count_paths_in_example(self):
         self.assertEqual(N_PATHS_IN_EXAMPLE, self.cn.count_paths())
 
+    def test_find_all_paths_in_example_revisit(self):
+        self.assertSetEqual(self.cn.find_paths(revisit_one_small_cave=True), ALL_PATHS_IN_EXAMPLE_WITH_REVISIT)
+
+    def test_count_with_revisit_in_example(self):
+        self.assertEqual(N_PATHS_IN_EXAMPLE_WITH_REVISIT, self.cn.count_paths(revisit_one_small_cave=True))
+
+
 class TestLargerExample(TestCase):
 
     def setUp(self) -> None:
@@ -176,11 +222,13 @@ class TestLargerExample(TestCase):
         self.assertEqual(N_PATHS_V2_IN_LARGER_EXAMPLE, self.cn.count_paths(revisit_one_small_cave=True))
 
 
-
 class TestEvenLargerExample(TestCase):
 
     def setUp(self) -> None:
         self.cn = CaveNetwork(EVEN_LARGER_EXAMPLE)
 
-    def test_count_paths_in_example(self):
+    def test_count_paths_in_even_larger_example(self):
         self.assertEqual(N_PATHS_IN_EVEN_LARGER_EXAMPLE, self.cn.count_paths())
+
+    def test_count_paths_in_even_larger_example_revisit(self):
+        self.assertEqual(N_PATHS_IN_EVEN_LARGER_EXAMPLE_WITH_REVISIT, self.cn.count_paths(revisit_one_small_cave=True))

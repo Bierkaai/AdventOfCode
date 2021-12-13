@@ -28,6 +28,8 @@ class CaveNetwork(object):
 
         self.small_caves = {n for n in self.graph.nodes if str(n).islower()}
 
+        print(self.graph.nodes)
+
     @property
     def n_caves(self):
         return self.graph.number_of_nodes()
