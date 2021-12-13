@@ -36,6 +36,13 @@ ALL_PATHS_IN_SIMPLE_EXAMPLE = {
     ("start", "A", "b", "A", "end")
 }
 
+ALL_PATHS_IN_SIMPLE_EXAMPLE_WITH_REVISIT = {
+    ("start", "A", "end"),
+    ("start", "A", "b", "end"),
+    ("start", "A", "b", "A", "b", "end"),
+    ("start", "A", "b", "A", "b", "A", "end")
+}
+
 EXAMPLE_INPUT = """start-A
 start-b
 A-c
@@ -108,6 +115,12 @@ class TestCaveNetworkBasicFunctionalityStrInput(TestCase):
     def test_small_caves_list_is_made_correctly(self):
         self.assertSetEqual(SMALL_CAVES_IN_SIMPLE_EXAMPLE, self.cn.small_caves)
 
+    def test_find_paths_simple_example(self):
+        self.assertSetEqual(ALL_PATHS_IN_SIMPLE_EXAMPLE, self.cn.find_paths())
+
+    def test_find_paths_simple_example_revisit(self):
+        self.assertSetEqual(ALL_PATHS_IN_SIMPLE_EXAMPLE_WITH_REVISIT, self.cn.find_paths(revisit_one_small_cave=True))
+
 
 class TestCaveNetworkBasicFunctionalityListInput(TestCase):
 
@@ -123,6 +136,8 @@ class TestCaveNetworkBasicFunctionalityListInput(TestCase):
 
     def test_small_caves_list_is_made_correctly(self):
         self.assertSetEqual(SMALL_CAVES_IN_SIMPLE_EXAMPLE, self.cn.small_caves)
+
+
 
 
 class TestCaveNetworkPathFinding(TestCase):

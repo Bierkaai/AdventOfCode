@@ -32,7 +32,7 @@ class CaveNetwork(object):
     def n_caves(self):
         return self.graph.number_of_nodes()
 
-    def find_paths(self, start_cave=START_CAVE_NAME, end_cave=END_CAVE_NAME, path=tuple()):
+    def find_paths(self, start_cave=START_CAVE_NAME, end_cave=END_CAVE_NAME, path=tuple(), revisit_one_small_cave=False):
 
         def is_explorable(cave):
             if cave not in path:
@@ -40,6 +40,7 @@ class CaveNetwork(object):
             if cave not in self.small_caves:
                 return True
             return False
+
         # append this node to the path
         path_to_here = path + (start_cave,)
 
