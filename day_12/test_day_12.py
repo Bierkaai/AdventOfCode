@@ -172,7 +172,6 @@ class TestLargerExample(TestCase):
     def test_count_paths_in_example(self):
         self.assertEqual(N_PATHS_IN_LARGER_EXAMPLE, self.cn.count_paths())
 
-    @unittest.skip
     def test_count2_paths_in_larger_example(self):
         self.assertEqual(N_PATHS_V2_IN_LARGER_EXAMPLE, self.cn.count_paths(revisit_one_small_cave=True))
 

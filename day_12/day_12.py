@@ -88,8 +88,8 @@ class CaveNetwork(object):
             for neighbor in explorable_caves
         ])
 
-    def count_paths(self, start_cave=START_CAVE_NAME, end_cave=END_CAVE_NAME):
-        return len(self.find_paths(start_cave=start_cave, end_cave=end_cave))
+    def count_paths(self, start_cave=START_CAVE_NAME, end_cave=END_CAVE_NAME, revisit_one_small_cave=False):
+        return len(self.find_paths(start_cave=start_cave, end_cave=end_cave, revisit_one_small_cave=revisit_one_small_cave))
 
 
 if __name__ == "__main__":
