@@ -32,6 +32,20 @@ class TestGame(unittest.TestCase):
         self.assertEqual(PLAYER_1_POSITION_AFTER_1_MOVE, int(self.g.players[0]))
         self.assertEqual(PLAYER_2_POSITION_AFTER_1_MOVE, int(self.g.players[1]))
 
+    def test_player_score_after_first_move(self):
+        # After first move, score is just the first position, so we test that
+        self.g.move_players()
+        self.assertEqual(PLAYER_1_POSITION_AFTER_1_MOVE, self.g.player_scores[0])
+        self.assertEqual(PLAYER_2_POSITION_AFTER_1_MOVE, self.g.player_scores[1])
+
+    def test_player_score_and_pos_after_second_move(self):
+        self.g.move_players()
+        self.g.move_players()
+        self.assertEqual(PLAYER_1_POSITION_AFTER_2_MOVES, int(self.g.players[0]))
+        self.assertEqual(PLAYER_2_POSITION_AFTER_2_MOVES, int(self.g.players[1]))
+        self.assertEqual(PLAYER_1_SCORE_AFTER_2_MOVES, self.g.player_scores[0])
+        self.assertEqual(PLAYER_2_SCORE_AFTER_2_MOVES, self.g.player_scores[1])
+
 
 
 
