@@ -28,8 +28,9 @@ class TestGame(unittest.TestCase):
         self.assertEqual(6, self.g.die_roll_count)
 
     def test_player_position_after_first_move(self):
-        self.assertEqual(PLAYER_1_POSITION_AFTER_1_MOVE, self.g.players[0])
-        self.assertEqual(PLAYER_2_POSITION_AFTER_1_MOVE, self.g.players[1])
+        self.g.move_players()
+        self.assertEqual(PLAYER_1_POSITION_AFTER_1_MOVE, int(self.g.players[0]))
+        self.assertEqual(PLAYER_2_POSITION_AFTER_1_MOVE, int(self.g.players[1]))
 
 
 
