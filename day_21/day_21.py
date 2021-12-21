@@ -13,8 +13,10 @@ class Game(object):
     def __init__(self, players):
         self.die = WrapAroundInt(wraparound=DIE_MAX_VALUE, initial_value=DIE_INITIAL_VALUE)
         self.players = players
+        self.die_roll_count = 0
 
     def roll_die(self):
+        self.die_roll_count += DIE_ROLLS
         return sum([self.die.increment() for _ in range(DIE_ROLLS)])
 
 
