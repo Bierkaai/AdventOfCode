@@ -1,5 +1,7 @@
 import unittest
 
+from models.counters import WrapAroundInt
+
 WRAPAROUND = 4
 
 INITIAL_INT_VALUE = 1
@@ -8,9 +10,9 @@ INITIAL_INT_VALUE = 1
 class TestWraparoundInt(unittest.TestCase):
 
     def setUp(self) -> None:
-        self.i = TestWraparoundInt(
+        self.i = WrapAroundInt(
             wraparound = WRAPAROUND,
-            iniial_value = INITIAL_INT_VALUE
+            initial_value = INITIAL_INT_VALUE
         )
 
     def test_initial_value(self):
@@ -24,8 +26,12 @@ class TestWraparoundInt(unittest.TestCase):
         self.assertEqual(INITIAL_INT_VALUE + 1, self.i.value)
 
     def test_add_1(self):
-        self.i += 1
-        self.assertEqual(INITIAL_INT_VALUE + 1, self.i.value)
+        result = self.i + 1
+        self.assertEqual(INITIAL_INT_VALUE + 1, result)
+
+    def test_add_wraparound(self):
+        result = self.i + WRAPAROUND
+        self.assertEqual(INITIAL_INT_VALUE, result)
 
     def test_wraparound_incrementally(self):
         for i in range(WRAPAROUND):
