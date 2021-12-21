@@ -16,6 +16,7 @@ class Game(object):
         self.die = WrapAroundInt(wraparound=DIE_MAX_VALUE, initial_value=DIE_INITIAL_VALUE)
         self.players = [WrapAroundInt(wraparound=BOARD_FIELD_COUNT, initial_value=p) for p in players]
         self.die_roll_count = 0
+        self.player_scores = [0] * len(players)
 
     def roll_die(self):
         self.die_roll_count += DIE_ROLLS
@@ -25,6 +26,7 @@ class Game(object):
         for i, p in enumerate(self.players):
             die_roll = self.roll_die()
             p.increment(die_roll)
+            self.player_scores[i] = self.player_scores[i] + int(p)
 
 
 
