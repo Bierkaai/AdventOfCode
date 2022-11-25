@@ -1,6 +1,6 @@
 from collections import deque
 
-INPUT_FILE = "./input/09.txt"
+INPUT_FILE = "input/09.txt"
 # TODO: this falsely suggests you can change the neighborhood size. This is not the case yet
 NEIGHBORHOOD_SIZE = 3
 
