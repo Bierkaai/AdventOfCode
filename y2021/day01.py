@@ -18,17 +18,12 @@ def solve_b(data):
     parsed = parse_list_str_to_list_int(data)
     window_size = 3
 
-    # we only need to check if the newly added number is higher than
-    # the removed number
-    total_window_sum_increases = 0
-    first_number_previous_window = parsed[0]
+    # we only need to check if the first item of the previous window
+    # is lower than the last item in the new window
+    first_items = parsed[:-window_size]
+    last_items = parsed[window_size:]
+    return sum(f < l for f, l in zip(first_items, last_items))
 
-    for i in range(1, len(parsed) - window_size + 1):
-        if parsed[i + window_size - 1] > first_number_previous_window:
-            total_window_sum_increases += 1
-        first_number_previous_window = parsed[i]
-
-    return total_window_sum_increases
 
 if __name__ == "__main__":
     p = Puzzle(day=DAY, year=YEAR)
