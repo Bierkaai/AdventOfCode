@@ -5,6 +5,7 @@ from aocd.models import Puzzle
 DAY = 2
 YEAR = 2021
 
+
 @dataclass
 class Submarine:
     position: int = 0
@@ -25,7 +26,6 @@ class Submarine:
             self.depth -= amount
 
 
-
 def solve_a(data):
     s = Submarine()
     for line in data.splitlines(keepends=False):
@@ -36,10 +36,9 @@ def solve_a(data):
 def solve_b(data):
     return None
 
+
 if __name__ == "__main__":
     p = Puzzle(day=DAY, year=YEAR)
     input_data = p.input_data
     p.answer_a = solve_a(input_data)
     p.answer_b = solve_b(input_data)
-
-
