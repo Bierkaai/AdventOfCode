@@ -20,8 +20,15 @@ def solve_b(data):
 
     # we only need to check if the first item of the previous window
     # is lower than the last item in the new window
+
+    # first item of previous window for all windows except first
     first_items = parsed[:-window_size]
+
+    # last item of current window for all windows except first
     last_items = parsed[window_size:]
+
+    # zipping the two lists to item-by-item check if added item is larger than removed one
+    # Using upcast of boolean True to integer 1 to count
     return sum(f < l for f, l in zip(first_items, last_items))
 
 
