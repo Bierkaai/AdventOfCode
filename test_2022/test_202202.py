@@ -16,7 +16,7 @@ class TestDay02(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
-        puzzle = Puzzle(year=2021, day=2)
+        puzzle = Puzzle(year=YEAR, day=DAY)
         cls.example_data = puzzle.example_data
         cls.example_result_a = EXAMPLE_RESULT_A
         cls.example_result_b = EXAMPLE_RESULT_B
