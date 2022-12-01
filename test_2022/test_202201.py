@@ -18,6 +18,8 @@ EXAMPLE_INPUT = """1000
 2000
 
 4000
+
+2000
 """
 
 TOKENIZED = [[1000, 2000], [4000, ], [2000, ]]
@@ -32,7 +34,7 @@ TOKENIZED_MORE = [
     [200, 400, 400]
 ]
 
-TOP_3_SUM = 1800
+TOP_3_SUM = 2000
 
 
 class TestItemizer(unittest.TestCase):
@@ -54,6 +56,11 @@ class TestMaxSummer(unittest.TestCase):
     def test_return_max_sum_top_2(self):
         output = max_sum(TOKENIZED, n=2)
         self.assertEqual(TOP_2_SUM, output)
+
+    def test_return_max_sum_top_3(self):
+        output = max_sum(TOKENIZED_MORE, n=3)
+        self.assertEqual(TOP_3_SUM, output)
+
 
 
 class TestDay01(unittest.TestCase):
