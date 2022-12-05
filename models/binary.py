@@ -1,13 +1,16 @@
 class Bits:
 
-    def __init__(self, int_val=None, bit_str=None, length=8):
+    def __init__(self, int_val=None, bit_str=None, length=None):
         if int_val:
+            self.length = int(int_val).bit_length()
             self.int_repr = int_val
         elif bit_str:
+            self.length = len(bit_str)
             self.int_repr = self.parse_bitstr(bit_str)
         else:
             self.int_repr = 0
-        self.length = length
+        if length:
+            self.length = length
 
     @classmethod
     def parse_bitstr(cls, bit_str):
