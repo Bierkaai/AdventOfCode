@@ -1,15 +1,50 @@
 import unittest
-from unittest import TestCase
 
 from aocd.models import Puzzle
 
 from y2021.day03 import solve_a, solve_b
+from y2021.day03 import tokenize_to_str_list, transpose_str_list, get_most_common_bit
 
 YEAR = 2021
 DAY = 3
 
-EXAMPLE_RESULT_A = 150
+EXAMPLE_RESULT_A = 198
 EXAMPLE_RESULT_B = 900
+
+EXAMPLE_BITSTRING = "10011"
+EXAMPLE_MOST_COMMON_BIT = "1"
+
+EXAMPLE_BITSTRING_2 = "00010"
+EXAMPLE_MOST_COMMON_BIT_2 = "0"
+
+SMALL_INPUT_STR = """100
+111
+100
+001
+"""
+
+SMALL_INPUT = ["100", "111", "100", "001"]
+TRANSPOSE_SMALL = ["1110", "0100", "0101"]
+
+
+class TestInputParse(unittest.TestCase):
+
+    def test_tokenize_small(self):
+        output = tokenize_to_str_list(SMALL_INPUT_STR)
+        self.assertListEqual(SMALL_INPUT, output)
+
+    def test_transpose_small(self):
+        output = transpose_str_list(SMALL_INPUT)
+        self.assertListEqual(TRANSPOSE_SMALL, output)
+
+
+class TestProcessing(unittest.TestCase):
+
+    def test_get_most_common_bit(self):
+        self.assertEqual(EXAMPLE_MOST_COMMON_BIT, get_most_common_bit(EXAMPLE_BITSTRING))
+
+    def test_get_most_common_bit_edge_case(self):
+        self.assertEqual(EXAMPLE_MOST_COMMON_BIT_2, get_most_common_bit(EXAMPLE_BITSTRING_2))
 
 
 class TestDay03(unittest.TestCase):
