@@ -3,7 +3,7 @@ import unittest
 from aocd.models import Puzzle
 
 from y2022.day02 import solve_a, solve_b
-from y2022.day02 import parse_strategy_guide, calculate_move_score
+from y2022.day02 import parse_strategy_guide_a, calculate_move_score, parse_strategy_guide_b
 
 YEAR = 2022
 DAY = 2
@@ -19,12 +19,21 @@ EXAMPLE_DATA_PARSED = [
     ('S', 'S')
 ]
 
+
 MORE_EXAMPLE_PARSING = """A X
 B X
 C X
 B Y
 C Z
 """
+
+MORE_EXAMPLE_PARSED_B = [
+    ('R', 'S'),
+    ('P', 'R'),
+    ('S', 'P'),
+    ('P', 'P'),
+    ('S', 'R')
+]
 
 MORE_EXAMPLE_PARSED = [
     ('R', 'R'),
@@ -33,6 +42,7 @@ MORE_EXAMPLE_PARSED = [
     ('P', 'P'),
     ('S', 'S')
 ]
+
 
 MORE_EXAMPLE_SOLVED_SCORE = (
     1 + 3 +
@@ -59,11 +69,11 @@ MOVE_SCORE_TUPLES = [
 class TestCalculateScore(unittest.TestCase):
 
     def test_parse_input(self):
-        output = parse_strategy_guide(EXAMPLE_DATA)
+        output = parse_strategy_guide_a(EXAMPLE_DATA)
         self.assertListEqual(EXAMPLE_DATA_PARSED, output)
 
     def test_parse_input_2(self):
-        output = parse_strategy_guide(MORE_EXAMPLE_PARSING)
+        output = parse_strategy_guide_a(MORE_EXAMPLE_PARSING)
         self.assertListEqual(MORE_EXAMPLE_PARSED, output)
 
     def test_calculate_score(self):
@@ -72,7 +82,9 @@ class TestCalculateScore(unittest.TestCase):
             with self.subTest(i=i):
                 self.assertEqual(score, calculate_move_score(move), f"Score for move {move} should be {score}")
 
-    def test_determine_move(self):
+    def test_parse_strategy_guide_b(self):
+        output = parse_strategy_guide_b(MORE_EXAMPLE_PARSING)
+        self.assertListEqual(MORE_EXAMPLE_PARSED_B, output)
 
 
 class TestSolver(unittest.TestCase):
