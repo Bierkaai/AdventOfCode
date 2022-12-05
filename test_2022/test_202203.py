@@ -6,8 +6,8 @@ from y2022.day03 import solve_a, solve_b
 
 YEAR = 2022
 DAY = 3
-EXAMPLE_RESULT_A = None
-EXAMPLE_RESULT_B = None
+EXAMPLE_RESULT_A = 157
+EXAMPLE_RESULT_B = 111
 
 puzzle = Puzzle(year=YEAR, day=DAY)
 EXAMPLE_DATA = puzzle.example_data
