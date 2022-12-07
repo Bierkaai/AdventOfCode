@@ -2,47 +2,35 @@ import unittest
 
 from aocd.models import Puzzle
 
-from y2022.day03 import solve_a, solve_b
+from y2022.day06 import solve_a, solve_b
+from y2022.day06 import find_first_marker
 
 YEAR = 2022
 DAY = 6
-EXAMPLE_RESULT_A = 95437
-EXAMPLE_RESULT_B = None
+EXAMPLE_RESULT_A = 7
+EXAMPLE_RESULT_B = 19
 
-#puzzle = Puzzle(year=YEAR, day=DAY)
-#EXAMPLE_DATA = puzzle.example_data
+puzzle = Puzzle(year=YEAR, day=DAY)
+EXAMPLE_DATA = puzzle.example_data
 
-EXAMPLE_DATA = """$ cd /
-$ ls
-dir a
-14848514 b.txt
-8504156 c.dat
-dir d
-$ cd a
-$ ls
-dir e
-29116 f
-2557 g
-62596 h.lst
-$ cd e
-$ ls
-584 i
-$ cd ..
-$ cd ..
-$ cd d
-$ ls
-4060174 j
-8033020 d.log
-5626152 d.ext
-7214296 k
-"""
+EXTRA_EXAMPLE = "bvwbjplbgvbhsrlpgdmjqwftvncz"
+FIRST_MARKER = 5
+FIRST_14_MARKER = 23
 
-class TestFileSystem(unittest.TestCase):
 
-    def test_fs(self):
-        pass
+class TestFunctionality(unittest.TestCase):
 
-@unittest.skip
+    def test_find_first_marker(self):
+        output = find_first_marker(EXTRA_EXAMPLE)
+        self.assertEqual(FIRST_MARKER, output)
+
+    def test_longer_marker_str(self):
+        output = find_first_marker(EXTRA_EXAMPLE, n=14)
+        self.assertEqual(FIRST_14_MARKER, output)
+
+
+
+
 class TestDay06(unittest.TestCase):
 
     @classmethod
@@ -61,6 +49,7 @@ class TestDay06(unittest.TestCase):
         result = solve_b(self.example_data)
         self.assertEqual(self.example_result_b, result,
                          f"Example result B should be {self.example_result_b}, not {result}")
+
 
 if __name__ == '__main__':
     unittest.main()
