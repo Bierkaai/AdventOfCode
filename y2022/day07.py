@@ -15,7 +15,8 @@ class FileSystemNode:
 class FileSystemNav:
 
     def __init__(self, root: str = ROOT_NAME):
-        self.pwd = root
+        self.root = FileSystemNode(root)
+        self.pwd = self.root
 
 
 def solve_a(data):

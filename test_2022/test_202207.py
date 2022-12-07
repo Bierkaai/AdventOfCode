@@ -6,6 +6,7 @@ from y2022.day07 import solve_a, solve_b, ROOT_NAME, FileSystemNode
 from y2022.day07 import FileSystemNav
 
 FS_NODE_TEST_NAME = "nodename"
+FS_SUBDIR = "bla"
 
 YEAR = 2022
 DAY = 7
@@ -21,7 +22,14 @@ class TestFileSystemNav(unittest.TestCase):
         self.fs = FileSystemNav(root = ROOT_NAME)
 
     def test_pwd_is_root(self):
-        self.assertEqual(ROOT_NAME, self.fs.pwd)
+        self.assertIsInstance(self.fs.pwd, FileSystemNode)
+        self.assertEqual(ROOT_NAME, self.fs.pwd.name)
+
+    def test_cd_to_subdir(self):
+        pwd = self.fs.cd(FS_SUBDIR)
+        self.assertIsInstance(pwd, FileSystemNode)
+        self.assertEqual(FS_SUBDIR, pwd.name)
+        self.assertIs(pwd, self.fs.pwd)
 
 
 class TestFileSytemNode(unittest.TestCase):
