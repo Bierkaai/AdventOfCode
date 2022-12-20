@@ -10,6 +10,7 @@ pattern = re.compile(r"(?:Each )([a-z]+)(?: robot costs )((?:[0-9]+ [a-z]+(?: an
 costs_pattern = re.compile(r"([0-9]+ [a-z]+)(?: and |\.)")
 
 
+
 def parse_blueprint(blueprint: str) -> tuple[int, dict[Any, dict]]:
     id_str, costs_str = blueprint.split(":")
     blueprint_id = int(id_str.split(" ")[1])
@@ -20,6 +21,13 @@ def parse_blueprint(blueprint: str) -> tuple[int, dict[Any, dict]]:
         botcosts[robot_type] = {x[1]: int(x[0])
                                 for x in [match.split() for match in costs_pattern.findall(costs_str)]}
     return blueprint_id, botcosts
+
+
+class BotDFS:
+
+    def __init__(self, costs_dict):
+        self.bot_options = costs_dict
+        self.resources_dict = {bot_type: 0 for bot_type in self.bot_options.keys()}
 
 
 def solve_a(data):
