@@ -2,8 +2,7 @@ import unittest
 
 from aocd.models import Puzzle
 
-from y2022.day19 import solve_a, solve_b, parse_blueprint
-
+from y2022.day19 import solve_a, solve_b, parse_blueprint, BotDFS
 
 YEAR = 2022
 DAY = 19
@@ -27,8 +26,19 @@ EXAMPLE_ROBOT_COSTS = {
 }
 
 
-# I want to create a class that, based on a blueprint
-# starts to simulate/solve making stuff
+class TestDFS(unittest.TestCase):
+
+    def setUp(self) -> None:
+        self.dfs = BotDFS(EXAMPLE_ROBOT_COSTS)
+
+    def test_ore_bot_in_inventory(self):
+        self.assertEqual(1, self.dfs.bots['ore'])
+
+    def test_one_ore_is_mined_in_1_minute(self):
+        # we start with 0 ore
+        self.assertEqual(0, self.dfs.resources["ore"])
+        self.dfs.step_forward(1)
+        self.assertEqual(1, self.dfs.resources["ore"])
 
 
 class TestBlueprintParser(unittest.TestCase):
