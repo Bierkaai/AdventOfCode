@@ -18,10 +18,12 @@ EXAMPLE_BLUEPRINT = "Blueprint 1: Each ore robot costs 4 ore. Each clay robot co
 
 EXAMPLE_BP_NO = 1
 EXAMPLE_ROBOT_COSTS = {
-    "ore": [4, 0, 0],
-    "clay": [2, 0, 0],
-    "obsidian": [3, 14, 0],
-    "geode": [2, 0, 7],
+    "ore": {"ore": 4},
+    "clay": {"ore": 2},
+    "obsidian": {"ore": 3,
+                 "clay": 14},
+    "geode": {"ore": 2,
+              "obsidian": 7},
 }
 
 
@@ -40,7 +42,7 @@ class TestBlueprintParser(unittest.TestCase):
     def test_cost_parser(self):
         for robot_type, expected_costs in EXAMPLE_ROBOT_COSTS.items():
             with self.subTest(msg=f"Testing costs for {robot_type} robot"):
-                self.assertEqual(expected_costs, self.parser.getcosts(robot_type))
+                self.assertDictEqual(expected_costs, self.parser.botcosts[robot_type])
 
 
 class TestDay19(unittest.TestCase):
