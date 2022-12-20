@@ -1,4 +1,5 @@
 import re
+from typing import Dict, Tuple, Any
 
 from aocd.models import Puzzle
 
@@ -9,20 +10,16 @@ pattern = re.compile(r"(?:Each )([a-z]+)(?: robot costs )((?:[0-9]+ [a-z]+(?: an
 costs_pattern = re.compile(r"([0-9]+ [a-z]+)(?: and |\.)")
 
 
-class BlueprintParser:
+def parse_blueprint(blueprint: str) -> tuple[int, dict[Any, dict]]:
+    id_str, costs_str = blueprint.split(":")
+    blueprint_id = int(id_str.split(" ")[1])
 
-    def __init__(self, blueprint: str):
-        self.botcosts = dict()
-        self.blueprint_id = 0
-        self.parse_blueprint(blueprint)
-
-    def parse_blueprint(self, blueprint):
-        id_str, costs_str = blueprint.split(":")
-        self.blueprint_id = int(id_str.split(" ")[1])
-        matches = pattern.findall(costs_str)
-        for robot_type, costs_str in matches:
-            self.botcosts[robot_type] = {x[1]: int(x[0])
-                                         for x in [match.split() for match in costs_pattern.findall(costs_str)]}
+    botcosts = dict()
+    matches = pattern.findall(costs_str)
+    for robot_type, costs_str in matches:
+        botcosts[robot_type] = {x[1]: int(x[0])
+                                for x in [match.split() for match in costs_pattern.findall(costs_str)]}
+    return blueprint_id, botcosts
 
 
 def solve_a(data):
