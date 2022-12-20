@@ -9,7 +9,7 @@ YEAR = 2022
 pattern = re.compile(r"(?:Each )([a-z]+)(?: robot costs )((?:[0-9]+ [a-z]+(?: and |\.))+)")
 costs_pattern = re.compile(r"([0-9]+ [a-z]+)(?: and |\.)")
 
-
+STARTING_INVENTORY = {"ore": 1}
 
 def parse_blueprint(blueprint: str) -> tuple[int, dict[Any, dict]]:
     id_str, costs_str = blueprint.split(":")
@@ -27,7 +27,10 @@ class BotDFS:
 
     def __init__(self, costs_dict):
         self.bot_options = costs_dict
-        self.resources_dict = {bot_type: 0 for bot_type in self.bot_options.keys()}
+        self.inventory = {bot_type: 0 for bot_type in self.bot_options.keys()}
+        self.bots = {bot_type: STARTING_INVENTORY.get(bot_type, 0) for bot_type in self.bot_options.keys()}
+
+
 
 
 def solve_a(data):
