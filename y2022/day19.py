@@ -11,6 +11,7 @@ costs_pattern = re.compile(r"([0-9]+ [a-z]+)(?: and |\.)")
 
 STARTING_INVENTORY = {"ore": 1}
 
+
 def parse_blueprint(blueprint: str) -> tuple[int, dict[Any, dict]]:
     id_str, costs_str = blueprint.split(":")
     blueprint_id = int(id_str.split(" ")[1])
@@ -27,10 +28,13 @@ class BotDFS:
 
     def __init__(self, costs_dict):
         self.bot_options = costs_dict
-        self.inventory = {bot_type: 0 for bot_type in self.bot_options.keys()}
-        self.bots = {bot_type: STARTING_INVENTORY.get(bot_type, 0) for bot_type in self.bot_options.keys()}
+        self.kinds = self.bot_options.keys()
+        self.resources = {bot_type: 0 for bot_type in self.kinds}
+        self.bots = {bot_type: STARTING_INVENTORY.get(bot_type, 0) for bot_type in self.kinds}
 
-
+    def step_forward(self, minutes=1):
+        for k in self.kinds:
+            self.resources[k] += self.bots[k] * minutes
 
 
 def solve_a(data):
