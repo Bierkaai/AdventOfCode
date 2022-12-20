@@ -1,14 +1,13 @@
-
-
 from aocd.models import Puzzle
-
 
 DAY = 19
 YEAR = 2022
 
-class RobotBuilderSimulator:
+
+class BlueprintParser:
 
     def __init__(self, blueprint: str):
+        self.blueprint_id = None
         self.parse_blueprint(blueprint)
 
     def parse_blueprint(self, blueprint):
@@ -29,5 +28,3 @@ if __name__ == "__main__":
     input_data = p.input_data
     p.answer_a = solve_a(input_data)
     p.answer_b = solve_b(input_data)
-
-

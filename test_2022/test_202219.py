@@ -3,7 +3,7 @@ import unittest
 from aocd.models import Puzzle
 
 from y2022.day19 import solve_a, solve_b
-from y2022.day19 import RobotBuilderSimulator
+from y2022.day19 import BlueprintParser
 
 YEAR = 2022
 DAY = 19
@@ -29,18 +29,18 @@ EXAMPLE_ROBOT_COSTS = {
 # starts to simulate/solve making stuff
 
 
-class TestRobotbuilderSimulator(unittest.TestCase):
+class TestBlueprintParser(unittest.TestCase):
 
     def setUp(self) -> None:
-        self.rsim = RobotBuilderSimulator(EXAMPLE_BLUEPRINT)
+        self.parser = BlueprintParser(EXAMPLE_BLUEPRINT)
 
     def test_id_number_parsed(self):
-        self.assertEqual(EXAMPLE_BP_NO, self.rsim.blueprint_id)
+        self.assertEqual(EXAMPLE_BP_NO, self.parser.blueprint_id)
 
     def test_cost_parser(self):
         for robot_type, expected_costs in EXAMPLE_ROBOT_COSTS.items():
             with self.subTest(msg=f"Testing costs for {robot_type} robot"):
-                self.assertEqual(expected_costs, self.rsim.getcosts(robot_type))
+                self.assertEqual(expected_costs, self.parser.getcosts(robot_type))
 
 
 class TestDay19(unittest.TestCase):
