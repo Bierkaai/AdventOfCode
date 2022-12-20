@@ -2,6 +2,8 @@
 
 from aocd.models import Puzzle
 
+CHAMBER_WIDTH = 7
+
 
 DAY = 17
 YEAR = 2022
