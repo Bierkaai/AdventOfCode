@@ -2,7 +2,7 @@ import unittest
 
 from aocd.models import Puzzle
 
-from y2023.day04 import get_total_card_count_from_score_list, Card
+from y2023.day04 import Card
 
 YEAR = 2023
 DAY = 4

@@ -1,5 +1,5 @@
 import re
-from collections import deque
+from collections import Counter
 
 from aocd.models import Puzzle
 
@@ -38,6 +38,10 @@ class Card:
         return self.you_have & self.winning
 
     @property
+    def wincount(self):
+        return len(self.matched)
+
+    @property
     def score(self) -> int:
         count = len(self.matched)
         if count == 0:
@@ -55,7 +59,6 @@ def generate_cards(raw_data):
     yield from map(Card, raw_data.split("\n"))
 
 
-
 def solve_a(data):
     cards = list(generate_cards(data))
     scores = map(int, cards)
@@ -63,9 +66,21 @@ def solve_a(data):
 
 
 def solve_b(data):
-    cards = generate_cards(data)
-    scores = deque(list(map(int, cards)))
-    return get_total_card_count_from_score_list(scores)
+    cards = list(generate_cards(data))
+    cardnrs = [card.cardnr for card in cards]
+    counts = Counter({i:1 for i in cardnrs})
+    for card in cards:
+        this_card_count = counts[card.cardnr]
+        duplicate_these = range(card.cardnr + 1, card.cardnr + card.wincount + 1)
+        for duplicate in duplicate_these:
+            if duplicate in counts:
+                counts[duplicate] += this_card_count
+    return sum(counts.values())
+
+
+
+
+
 
 
 if __name__ == "__main__":
