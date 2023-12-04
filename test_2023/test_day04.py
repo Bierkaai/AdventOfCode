@@ -26,6 +26,7 @@ class TestCardHandling(unittest.TestCase):
         self.card = Card(CARD_EX)
 
     def test_parsing(self):
+        """Test whether the parsing works correctly"""
         self.assertEqual(self.card.cardnr, CARD_NR)
         self.assertListEqual(self.card.winning, WINNING_NUMBERS)
         self.assertListEqual(self.card.you_have, NUMBERS_YOU_HAVE)
