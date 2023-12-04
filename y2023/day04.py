@@ -7,8 +7,11 @@ YEAR = 2023
 PATTERN = r"(?:Card\s?)([0-9]+)(?:\:)((?:\s+[0-9]+)+)(?:\s+\|)((?:\s+[0-9]+)+)"
 
 class Card:
-
-    card_nr: int
+    cardnr: int
+    winning: set
+    you_have: set
+    matched: set
+    score: int
 
     def __init__(self, data):
         self.raw_data = data
