@@ -29,7 +29,7 @@ class Card:
         return nr, winning, you_have
 
     @property
-    def matched(self):
+    def matched(self) -> set:
         return self.you_have & self.winning
 
     @property
