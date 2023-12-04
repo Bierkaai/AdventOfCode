@@ -53,13 +53,20 @@ class Card:
 def generate_cards(raw_data):
     yield from map(Card, raw_data.split("\n"))
 
+
 def get_total_card_count_from_score_list(score_list: list[int]) -> int:
+    if len(score_list) == 0:
+        return 0
+    if len(score_list) == 1:
+        return 1
     return 0
+
 
 def solve_a(data):
     cards = list(generate_cards(data))
     scores = map(int, cards)
     return sum(scores)
+
 
 def solve_b(data):
     return None
