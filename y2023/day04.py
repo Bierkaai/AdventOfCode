@@ -4,7 +4,7 @@ from aocd.models import Puzzle
 DAY = 4
 YEAR = 2023
 
-PATTERN = r"(?:Card\s?)([0-9]+)(?:\:\s*)((?:[0-9]+\s+)+)(?:\|\s+)((?:[0-9]+\s+)+)"
+PATTERN = r"(?:Card\s?)([0-9]+)(?:\:)((?:\s+[0-9]+)+)(?:\s+\|)((?:\s+[0-9]+)+)"
 
 class Card:
 
