@@ -1,8 +1,10 @@
 import unittest
+from unittest.mock import patch, MagicMock
 
+import numpy as np
 from aocd.models import Puzzle
 
-from y2022.day19 import solve_a, solve_b, parse_blueprint, BotDFS
+from y2022.day19 import solve_a, solve_b, parse_blueprint, dfsbots
 
 YEAR = 2022
 DAY = 19
@@ -25,20 +27,31 @@ EXAMPLE_ROBOT_COSTS = {
               "obsidian": 7},
 }
 
+EX_BP_TUP = (
+    np.array((4, 0, 0, 0), dtype=int),
+    np.array((2, 0, 0, 0), dtype=int),
+    np.array((3, 14, 0, 0), dtype=int),
+    np.array((2, 0, 7, 0), dtype=int)
+)
 
-class TestDFS(unittest.TestCase):
+EX_START_INVENT = np.array((1, 0, 0, 0), dtype=int)
+EX_START_RESOURCES = np.array((0, 0, 0, 0), dtype=int)
 
-    def setUp(self) -> None:
-        self.dfs = BotDFS(EXAMPLE_ROBOT_COSTS)
 
-    def test_ore_bot_in_inventory(self):
-        self.assertEqual(1, self.dfs.bots['ore'])
+class TestDFSOneStep(unittest.TestCase):
 
-    def test_one_ore_is_mined_in_1_minute(self):
-        # we start with 0 ore
-        self.assertEqual(0, self.dfs.resources["ore"])
-        self.dfs.step_forward(1)
-        self.assertEqual(1, self.dfs.resources["ore"])
+    @patch("y2022.day19.dfsbots")
+    def test_DFS_builds_clay_bot_after_3_minutes(self, mockfun: MagicMock):
+        _ = dfsbots(time_left=3,
+                    blueprint=EX_BP_TUP,
+                    inventory=EX_START_INVENT,
+                    resources=EX_START_RESOURCES)
+        mockfun.assert_called_with(
+            time_left=0,
+            blueprint=EX_BP_TUP,
+            inventory=(1, 1, 0, 0),
+            resources=(1, 0, 0, 0)
+        )
 
 
 class TestBlueprintParser(unittest.TestCase):

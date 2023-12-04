@@ -1,6 +1,7 @@
 import re
 from typing import Dict, Tuple, Any
 
+import numpy as np
 from aocd.models import Puzzle
 
 DAY = 19
@@ -24,17 +25,39 @@ def parse_blueprint(blueprint: str) -> tuple[int, dict[Any, dict]]:
     return blueprint_id, botcosts
 
 
-class BotDFS:
+def dfsbots(time_left, blueprint, inventory, resources):
+    # All represented as array [ore, clay, obsidian, geode]
+    blueprint = (np.array(b) for b in blueprint)
+    inventory = np.array(inventory, dtype=int)
+    resources = np.array(resources, dtype=int)
 
-    def __init__(self, costs_dict):
-        self.bot_options = costs_dict
-        self.kinds = self.bot_options.keys()
-        self.resources = {bot_type: 0 for bot_type in self.kinds}
-        self.bots = {bot_type: STARTING_INVENTORY.get(bot_type, 0) for bot_type in self.kinds}
+    # loop over possible bots
+    no_more_options = True
+    for i, bp in enumerate(blueprint):
+        # Check if it is feasible to build this bot by checking if there is a bot for each required resource
+        if all(x[0] or not x[1] for x in zip(inventory, bp)):
+            # get the amount of time needed to build this bot
+            # max difference between blueprint and current resources divided by the bot inventory gives needed time
+            # adding 1 minute to actually build the bot
+            minutes_to_add_bot = np.ceil(max((bp - resources) / inventory)) + 1
+            new_time_left = time_left - minutes_to_add_bot
+            if new_time_left > 0:
+                no_more_options = False
+                botmask = np.zeros(4)
+                botmask[i] = 1
 
-    def step_forward(self, minutes=1):
-        for k in self.kinds:
-            self.resources[k] += self.bots[k] * minutes
+                print(f"Resources: {resources}, inventory: {inventory}, time_left: {time_left}")
+                print(f"Can build a type {i} bot (blueprint: {bp}) in {minutes_to_add_bot} minutes, leaving me {new_time_left} minutes")
+                botmask = np.zeros(4)
+                botmask[i] = 1
+                new_resources = inventory * minutes_to_add_bot
+                sending_resources = inventory + new_resources - bp
+                print(f"While building bot, mining {new_resources} and consuming {bp}, sending {sending_resources}")
+                result = dfsbots(new_time_left, blueprint, inventory+botmask, sending_resources)
+
+
+
+
 
 
 def solve_a(data):
