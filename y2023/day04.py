@@ -6,6 +6,7 @@ YEAR = 2023
 
 PATTERN = r"(?:Card\s?)([0-9]+)(?:\:)((?:\s+[0-9]+)+)(?:\s+\|)((?:\s+[0-9]+)+)"
 
+
 class Card:
     cardnr: int
     winning: set
@@ -26,6 +27,11 @@ class Card:
         winning = set(parse_to_list_of_int(matches.group(2).split()))
         you_have = set(parse_to_list_of_int(matches.group(3).split()))
         return nr, winning, you_have
+
+    @property
+    def matched(self):
+        return self.you_have & self.winning
+
 
 def solve_a(data):
     return None
