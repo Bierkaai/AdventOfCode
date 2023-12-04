@@ -39,11 +39,17 @@ class Card:
             return 0
         return 2 ** (count - 1)
 
+    def __add__(self, other) -> int:
+        return other.score + self.score
+
+
+def generate_cards(raw_data):
+    yield from map(Card, raw_data.split("\n"))
 
 
 def solve_a(data):
-    return None
-
+    cards = generate_cards(data)
+    return sum(cards)
 
 def solve_b(data):
     return None
