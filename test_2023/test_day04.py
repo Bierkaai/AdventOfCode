@@ -17,7 +17,7 @@ CARD_NR = 1
 WINNING_NUMBERS = [41, 48, 83, 86, 17]
 NUMBERS_YOU_HAVE = [83, 86, 6, 31, 17, 9, 48, 53]
 MATCHING_NUMBERS = [83, 17, 86, 17]
-VALUE = 8
+CARD_SCORE = 8
 
 
 class TestCardHandling(unittest.TestCase):
@@ -30,6 +30,13 @@ class TestCardHandling(unittest.TestCase):
         self.assertEqual(self.card.cardnr, CARD_NR)
         self.assertListEqual(self.card.winning, WINNING_NUMBERS)
         self.assertListEqual(self.card.you_have, NUMBERS_YOU_HAVE)
+
+    def test_matching(self):
+        self.assertListEqual(self.card.matched, MATCHING_NUMBERS)
+
+    def test_score(self):
+        self.assertEqual(self.card.score, CARD_SCORE)
+
 
 
 class TestDay04(unittest.TestCase):
