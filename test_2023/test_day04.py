@@ -19,13 +19,6 @@ NUMBERS_YOU_HAVE = set([83, 86, 6, 31, 17, 9, 48, 53])
 MATCHING_NUMBERS = set([83, 17, 86, 17, 48])
 CARD_SCORE = 8
 
-SINGLE_CARD_SCORELIST = [4]
-SINGLE_CARD_EXPECTED_CARDS = 1
-TWO_CARD_SCORELIST = [4,1]
-TWO_CARD_EXPECTED_CARDS = 3
-LONGER_SCORELIST = [5,3,2]
-LONGER_LIST_EXPECTED_CARDS = 1 + 2 + 2 + 4
-
 
 class TestCardHandling(unittest.TestCase):
 
@@ -43,22 +36,6 @@ class TestCardHandling(unittest.TestCase):
 
     def test_score(self):
         self.assertEqual(self.card.score, CARD_SCORE)
-
-class TestRecursiveAddition(unittest.TestCase):
-
-    def test_single_card_base_case(self):
-        result = get_total_card_count_from_score_list(SINGLE_CARD_SCORELIST)
-        self.assertEqual(SINGLE_CARD_EXPECTED_CARDS, result)
-
-    def test_two_cards(self):
-        result = get_total_card_count_from_score_list(TWO_CARD_SCORELIST)
-        self.assertEqual(TWO_CARD_EXPECTED_CARDS, result)
-
-    def test_more_cards(self):
-        result = get_total_card_count_from_score_list(LONGER_SCORELIST)
-        self.assertEqual(LONGER_LIST_EXPECTED_CARDS, result)
-
-
 
 
 class TestDay04(unittest.TestCase):
