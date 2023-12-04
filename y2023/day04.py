@@ -1,4 +1,5 @@
 import re
+
 from aocd.models import Puzzle
 
 DAY = 4
@@ -40,7 +41,10 @@ class Card:
         return 2 ** (count - 1)
 
     def __add__(self, other) -> int:
-        return other.score + self.score
+        return int(self) + int(other)
+
+    def __int__(self) -> int:
+        return self.score
 
 
 def generate_cards(raw_data):
@@ -48,8 +52,9 @@ def generate_cards(raw_data):
 
 
 def solve_a(data):
-    cards = generate_cards(data)
-    return sum(cards)
+    cards = list(generate_cards(data))
+    scores = map(int, cards)
+    return sum(scores)
 
 def solve_b(data):
     return None
