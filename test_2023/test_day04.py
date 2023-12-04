@@ -50,6 +50,10 @@ class TestRecursiveAddition(unittest.TestCase):
         result = get_total_card_count_from_score_list(SINGLE_CARD_SCORELIST)
         self.assertEqual(SINGLE_CARD_EXPECTED_CARDS, result)
 
+    def test_two_cards(self):
+        result = get_total_card_count_from_score_list(TWO_CARD_SCORELIST)
+        self.assertEqual(TWO_CARD_EXPECTED_CARDS, result)
+
     def test_more_cards(self):
         result = get_total_card_count_from_score_list(LONGER_SCORELIST)
         self.assertEqual(LONGER_LIST_EXPECTED_CARDS, result)
