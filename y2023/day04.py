@@ -5,7 +5,7 @@ from aocd.models import Puzzle
 DAY = 4
 YEAR = 2023
 
-PATTERN = r"(?:Card\s?)([0-9]+)(?:\:)((?:\s+[0-9]+)+)(?:\s+\|)((?:\s+[0-9]+)+)"
+PATTERN = r"(?:Card\s+)([0-9]+)(?:\:)((?:\s+[0-9]+)+)(?:\s+\|)((?:\s+[0-9]+)+)"
 
 
 class Card:
@@ -24,9 +24,12 @@ class Card:
             return list(map(int, list_of_nr_str))
 
         matches = re.match(PATTERN, raw_data_str)
-        nr = int(matches.group(1))
-        winning = set(parse_to_list_of_int(matches.group(2).split()))
-        you_have = set(parse_to_list_of_int(matches.group(3).split()))
+        try:
+            nr = int(matches.group(1))
+            winning = set(parse_to_list_of_int(matches.group(2).split()))
+            you_have = set(parse_to_list_of_int(matches.group(3).split()))
+        except AttributeError:
+            raise AttributeError(f"Parsing failed for string? '{raw_data_str}'")
         return nr, winning, you_have
 
     @property
