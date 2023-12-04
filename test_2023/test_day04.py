@@ -28,11 +28,11 @@ class TestCardHandling(unittest.TestCase):
     def test_parsing(self):
         """Test whether the parsing works correctly"""
         self.assertEqual(self.card.cardnr, CARD_NR)
-        self.assertListEqual(self.card.winning, WINNING_NUMBERS)
-        self.assertListEqual(self.card.you_have, NUMBERS_YOU_HAVE)
+        self.assertSetEqual(self.card.winning, WINNING_NUMBERS)
+        self.assertSetEqual(self.card.you_have, NUMBERS_YOU_HAVE)
 
     def test_matching(self):
-        self.assertListEqual(self.card.matched, MATCHING_NUMBERS)
+        self.assertSetEqual(self.card.matched, MATCHING_NUMBERS)
 
     def test_score(self):
         self.assertEqual(self.card.score, CARD_SCORE)
