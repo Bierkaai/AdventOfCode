@@ -17,14 +17,14 @@ class Card:
         self.raw_data = data
         self.cardnr, self.winning, self.you_have = self.parse_input(data)
 
-    def parse_input(self, input_data: str):
+    def parse_input(self, raw_data_str: str) -> tuple[int, set, set]:
         def parse_to_list_of_int(list_of_nr_str: list[str]) -> list[int]:
             return list(map(int, list_of_nr_str))
 
-        matches = re.match(PATTERN, input_data)
+        matches = re.match(PATTERN, raw_data_str)
         nr = int(matches.group(1))
-        winning = parse_to_list_of_int(matches.group(2).split())
-        you_have = parse_to_list_of_int(matches.group(3).split())
+        winning = set(parse_to_list_of_int(matches.group(2).split()))
+        you_have = set(parse_to_list_of_int(matches.group(3).split()))
         return nr, winning, you_have
 
 def solve_a(data):
