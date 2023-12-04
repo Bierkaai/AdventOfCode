@@ -32,6 +32,14 @@ class Card:
     def matched(self):
         return self.you_have & self.winning
 
+    @property
+    def score(self) -> int:
+        count = len(self.matched)
+        if count == 0:
+            return 0
+        return 2 ** (count - 1)
+
+
 
 def solve_a(data):
     return None
