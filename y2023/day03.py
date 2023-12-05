@@ -1,6 +1,6 @@
 from aocd.models import Puzzle
 
-DAY = 2
+DAY = 3
 YEAR = 2023
 
 
