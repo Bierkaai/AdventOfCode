@@ -2,15 +2,28 @@ import unittest
 
 from aocd.models import Puzzle
 
-from y2023.day02 import solve_a, solve_b
+from y2023.day05 import solve_a, solve_b, Almanac
 
 YEAR = 2023
 DAY = 5
-EXAMPLE_RESULT_A = 4361
+EXAMPLE_RESULT_A = 35
 EXAMPLE_RESULT_B = 281
 
 puzzle = Puzzle(year=YEAR, day=DAY)
 EXAMPLE_DATA = puzzle.example_data
+
+EXAMPLE_SEEDS = [79, 14, 55, 13]
+SEED_TO_SOIL = [(50, 98, 2), (52, 50, 48)]
+
+
+class TestParser(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        a = Almanac(EXAMPLE_DATA)
+
+    def test_seed_list(self):
+        self.assertListEqual(a.seed_list, EXAMPLE_SEEDS)
 
 
 class TestDay01(unittest.TestCase):
