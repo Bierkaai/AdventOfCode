@@ -20,10 +20,10 @@ class TestParser(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
-        a = Almanac(EXAMPLE_DATA)
+        cls.a = Almanac(EXAMPLE_DATA)
 
     def test_seed_list(self):
-        self.assertListEqual(a.seed_list, EXAMPLE_SEEDS)
+        self.assertListEqual(self.a.seed_list, EXAMPLE_SEEDS)
 
 
 class TestDay01(unittest.TestCase):
